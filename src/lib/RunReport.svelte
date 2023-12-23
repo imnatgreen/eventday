@@ -31,7 +31,7 @@ ${m.hundred.length > 0 ? '⚫️ 100 junior parkruns — '+listFormatter.format(
   <br>
   <p>{data.participants} incredible children joined us this morning to run, jog, skip, hop or walk our 2km course at Towneley Park.</p>
   <br>
-  <p>{data.firstTimers.length} children joined us for the first time this morning.{#if data.firstTimers.length > 0} A warm welcome to {listFormatter.format(data.firstTimers)} 👋 We hope to see you again next week!{/if}</p> 
+  <p>{data.firstTimers.length} {data.firstTimers.length > 1 ? "children" : "child"} joined us for the first time this morning.{data.firstTimers.length > 0 ? ` A warm welcome to ${listFormatter.format(data.firstTimers)} 👋 We hope to see you again next week!` : ""}</p> 
   <br>
   {#if data.newPBs.length > 0}
     <p>{data.newPBs.length} {data.newPBs.length > 1 ? "children" : "child"} achieved a new PB today 🌟</p>
