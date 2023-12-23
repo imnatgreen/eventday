@@ -8,6 +8,10 @@
 
   const listFormatter = new Intl.ListFormat('en', { style: 'long' });
 
+
+  const milestoneCount = (m: ParkrunRunReportMilestones) => {
+    return m.half.length + m.full.length + m.ultra.length + m.hundred.length;
+  }
   const milestoneText = (m: ParkrunRunReportMilestones) => {
     return `${m.half.length > 0 ? '🔵 Half marathon (11 runs) — '+listFormatter.format(m.half) : ''}
 ${m.full.length > 0 ? '🟢 Full marathon (21 runs) — '+listFormatter.format(m.full) : ''}
@@ -27,15 +31,19 @@ ${m.hundred.length > 0 ? '⚫️ 100 junior parkruns — '+listFormatter.format(
   <br>
   <p>{data.participants} incredible children joined us this morning to run, jog, skip, hop or walk our 2km course at Towneley Park.</p>
   <br>
-  <p>{data.firstTimers.length} children joined us for the first time this morning. A warm welcome to {listFormatter.format(data.firstTimers)} 👋 We hope to see you again next week!</p> 
+  <p>{data.firstTimers.length} children joined us for the first time this morning.{#if data.firstTimers.length > 0} A warm welcome to {listFormatter.format(data.firstTimers)} 👋 We hope to see you again next week!{/if}</p> 
   <br>
-  <p>{data.newPBs.length} children achieved a new PB today 🌟</p>
-  <p>Congratulations to {listFormatter.format(data.newPBs)}.</p>
-  <br>
-  <p>4 children reached milestones this morning, well done!</p>  
-  <p class="whitespace-pre-wrap">{milestoneText(data.milestones)}</p>
-  <p>We'll call these out next week and you'll get a wristband. We only call these out once, so if you think you've missed a milestone band, let us know and we can call it out the next time you come.</p>
-  <br>
+  {#if data.newPBs.length > 0}
+    <p>{data.newPBs.length} {data.newPBs.length > 1 ? "children" : "child"} achieved a new PB today 🌟</p>
+    <p>Congratulations to {listFormatter.format(data.newPBs)}.</p>
+    <br>
+  {/if}
+  {#if milestoneCount(data.milestones) > 0}
+    <p>{milestoneCount(data.milestones)} {milestoneCount(data.milestones) > 1 ? "children reached milestones" : "child reached a milestone"} this morning, well done!</p>  
+    <p class="whitespace-pre-wrap">{milestoneText(data.milestones)}</p>
+    <p>We'll call {milestoneCount(data.milestones) > 1 ? "these" : "this"} out next week and you'll get a wristband. We only call these out once, so if you think you've missed a milestone band, let us know and we can call it out the next time you come.</p>
+    <br>
+  {/if}
   <p>If you have a milestone coming up, let us know. We have vests to celebrate the 50th & 100th runs & also a birthday one.</p>
   <br>
   <p>As always, today's event wouldn't have been possible without our fabulous volunteers. A massive thanks to {listFormatter.format(data.volunteers)}.</p>
