@@ -1,12 +1,38 @@
+import { redirect } from '@sveltejs/kit';
+
 import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ fetch, url }) => {
-	const eventsRes = await fetch('/api/recent-events');
+import { parkrunGet, ParkrunRun } from '$lib/server/parkrun';
 
-	const events: ParkrunEvent[] = await eventsRes.json();
+export const load: LayoutServerLoad = async ({ url, locals }) => {
+  const session = await locals.auth.validate();
+  if (
+    !session &&
+    url.pathname != '/login' &&
+    url.pathname != '/signup' &&
+    url.pathname != '/logout'
+  )
+    throw redirect(307, '/login');
 
-	return {
-		events: events,
-		url: url.pathname
-	};
+  let runs: ParkrunRun[] = [];
+  if (session) {
+    const runsRaw = await parkrunGet(
+      '/v1/events/147/runs',
+      { OrderByDesc: 'EventNumber,RunId' },
+      { dataName: 'Runs', rangeName: 'RunsRange' }
+    );
+
+    runs = runsRaw.reverse().map((r: Record<string, string>) => {
+      return { ...new ParkrunRun(r) };
+    });
+  }
+
+  return {
+    session: {
+      userId: session ? session.user.userId : '',
+      username: session ? session.user.username : ''
+    },
+    runs: runs,
+    url: url.pathname
+  };
 };

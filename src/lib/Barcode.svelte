@@ -14,7 +14,6 @@
   });
 
   $: if (rendered) JsBarcode(barcode, value, options);
-  
 </script>
 
-<svg bind:this={barcode}></svg>
+<svg bind:this={barcode} />
