@@ -22,7 +22,7 @@ export const load: LayoutServerLoad = async ({ url, locals }) => {
       { dataName: 'Runs', rangeName: 'RunsRange' }
     );
 
-    runs = runsRaw.reverse().map((r: Record<string, string>) => {
+    runs = runsRaw.map((r: Record<string, string>) => {
       return { ...new ParkrunRun(r) };
     });
   }
@@ -30,7 +30,8 @@ export const load: LayoutServerLoad = async ({ url, locals }) => {
   return {
     session: {
       userId: session ? session.user.userId : '',
-      username: session ? session.user.username : ''
+      username: session ? session.user.username : '',
+      isAdmin: session ? !!session.user.is_admin : false
     },
     runs: runs,
     url: url.pathname

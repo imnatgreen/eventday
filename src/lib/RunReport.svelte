@@ -1,5 +1,6 @@
 <script lang="ts">
   import { cn } from '$lib/utils';
+  import type { ParkrunRunReport, ParkrunRunReportMilestones } from './server/parkrun';
 
   let className: string | undefined = undefined;
   export { className as class };
@@ -27,7 +28,7 @@ ${
 
 <div
   class={cn(
-    'select-all h-fit min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+    'h-fit min-h-[80px] w-full select-all rounded-md border border-input bg-white px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
     className
   )}
 >
@@ -38,8 +39,8 @@ ${
       <p>Burnley junior parkrun #{data.id}</p>
 
       <p>
-        {data.participants} incredible children joined us this morning to run, jog, skip, hop or walk
-        our 2km course at Towneley Park.
+        {data.participants} children joined us this morning to run, jog, skip, hop or walk our 2km course
+        at Towneley Park.
       </p>
 
       <p>

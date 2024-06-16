@@ -1,21 +1,16 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { error } from '@sveltejs/kit';
 
   import type { PageData } from './$types';
   import RunReport from '$lib/RunReport.svelte';
 
   import { ChevronRight } from 'lucide-svelte';
   import { titleCase, getResultNamesByCondition } from '$lib/utils';
+  import type { ParkrunRunReport } from '$lib/server/parkrun';
 
   export let data: PageData;
 
   const runId = Number.parseInt($page.params.slug);
-
-  let x = [
-    ['a', 'b'],
-    ['c', 'd']
-  ];
 
   const report: ParkrunRunReport = {
     id: runId,
@@ -34,7 +29,7 @@
   };
 </script>
 
-<div class="mb-1 sm:mb-4 flex items-center space-x-1 text-sm text-muted-foreground">
+<div class="mb-1 flex items-center space-x-1 text-sm text-muted-foreground sm:mb-4">
   <a href="/" class="overflow-hidden text-ellipsis whitespace-nowrap"> Home </a>
   <ChevronRight class="h-4 w-4" />
   <a href={`/event/${runId}`} class="font-medium text-foreground">Event #{runId}</a>

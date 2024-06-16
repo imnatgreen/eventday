@@ -1,27 +1,94 @@
 import { env } from '$env/dynamic/private';
 
-import { Parkrun } from 'parkrun.js';
-import { ParkrunNetError } from 'parkrun.js/src/errors';
+import { OAuth2Client, OAuth2Fetch } from '@badgateway/oauth2-client';
+
+const parkrunClient = new OAuth2Client({
+  tokenEndpoint: new URL('/auth/refresh', env.PARKRUN_API_BASE).href,
+  clientId: 'parkrun',
+  authenticationMethod: 'client_secret_post'
+});
+
+export const parkrunFetch = new OAuth2Fetch({
+  client: parkrunClient,
+  getNewToken: async () => {
+    const res = await fetch(new URL('/user_auth.php', env.PARKRUN_API_BASE), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization:
+          'Basic bmV0ZHJlYW1zLWlwaG9uZS1zMDE6Z2ZLYkRENk5Ka1lvRm1raXNSKGlWRm9wUUNLV3piUWVRZ1pBWlpLSw=='
+      },
+      body: new URLSearchParams({
+        username: env.PARKRUN_USER,
+        password: env.PARKRUN_PASSWORD,
+        scope: 'app',
+        grant_type: 'password'
+      })
+    });
+    const data = await res.json();
+
+    return {
+      accessToken: data.access_token,
+      expiresAt: data.expires_in ? Date.now() + data.expires_in * 1000 : null,
+      refreshToken: data.refresh_token ?? null
+    };
+  }
+});
 
 export const parkrunGet = async (
   path: string,
-  options: object,
+  options: { [key: string]: string | number | boolean },
   multi: false | { dataName: string; rangeName: string } = false
 ) => {
-  const client = await Parkrun.authSync(env.PARKRUN_USER, env.PARKRUN_PASSWORD);
+  const params = new URLSearchParams();
+  Object.keys(options).forEach((key) => {
+    params.append(key, options[key].toString());
+  });
+
+  const url = new URL(path, env.PARKRUN_API_BASE).href;
 
   if (!multi) {
-    const net = client._getAuthedNet();
-    const res = await net
-      .get(path, {
-        params: { ...options, ...net._params }
-      })
-      .catch((err) => {
-        throw new ParkrunNetError(err);
-      });
-    return await res.data;
+    const urlWithParams = params.toString() ? `${url}?${params.toString()}` : url;
+    const res = await parkrunFetch.fetch(urlWithParams);
+    return await res.json();
   } else {
-    return await client._multiGet(path, options, multi.dataName, multi.rangeName);
+    const searchParams = new URLSearchParams(params);
+    searchParams.append('offset', '0');
+    searchParams.append('limit', '0');
+    const urlWithParams = searchParams.toString() ? `${url}?${searchParams.toString()}` : url;
+    const firstRequestRes = await parkrunFetch.fetch(urlWithParams);
+    const firstRequest = await firstRequestRes.json();
+
+    const range = firstRequest['Content-Range'][multi.rangeName][0];
+    let data = firstRequest.data[multi.dataName];
+
+    let amountDownloaded = Number.parseInt(range.last);
+    const amountTotal = Number.parseInt(range.max);
+    const amountRemaining = amountTotal - amountDownloaded;
+
+    const amountPullsRequired = Math.ceil(amountRemaining / 100);
+
+    const requests = [];
+    for (let i = 0; i < amountPullsRequired; i++) {
+      const stepSearchParams = new URLSearchParams(params);
+      stepSearchParams.append('offset', amountDownloaded.toString());
+      stepSearchParams.append('limit', '100');
+      const stepUrlWithParams = stepSearchParams.toString()
+        ? `${url}?${stepSearchParams.toString()}`
+        : url;
+      requests.push(parkrunFetch.fetch(stepUrlWithParams));
+      amountDownloaded += 100;
+    }
+
+    const responses = await Promise.all(requests);
+    const dataPromises = responses.map((res) => res.json());
+    const dataResponses = await Promise.all(dataPromises);
+
+    dataResponses.forEach((res) => {
+      data = data.concat(res.data[multi.dataName]);
+    });
+
+    return data;
   }
 };
 
@@ -132,3 +199,19 @@ export class ParkrunRun {
     this.NumberOfVolunteers = Number.parseInt(data.NumberOfVolunteers);
   }
 }
+
+export type ParkrunRunReport = {
+  id: number;
+  participants: number;
+  firstTimers: string[];
+  newPBs: string[];
+  milestones: ParkrunRunReportMilestones;
+  volunteers: string[];
+};
+
+export type ParkrunRunReportMilestones = {
+  half: string[];
+  full: string[];
+  ultra: string[];
+  hundred: string[];
+};

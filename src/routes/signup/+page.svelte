@@ -13,13 +13,13 @@
   export let form: ActionData;
 </script>
 
-<div class="absolute top-0 bottom-0 left-0 right-0">
+<div class="absolute bottom-0 left-0 right-0 top-0">
   <div
     class="h-full flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0"
   >
     <div class="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex">
       <div
-        class="absolute inset-0 bg-cover bg-[55%_50%] min-h-full"
+        class="absolute inset-0 min-h-full bg-cover bg-[55%_50%]"
         style="
           background-image:
             url(/volunteers.jpg);"

@@ -3,7 +3,6 @@
   import { createRender, createTable, Render, Subscribe } from 'svelte-headless-table';
   import { addSortBy } from 'svelte-headless-table/plugins';
   import * as Table from '$lib/components/ui/table';
-  import { Button } from '$lib/components/ui/button';
   import ResultTableBadgeCell from '$lib/ResultTableBadgeCell.svelte';
 
   import { ArrowUpDown } from 'lucide-svelte';
@@ -97,7 +96,7 @@
   const { headerRows, pageRows, tableAttrs, tableBodyAttrs } = table.createViewModel(columns);
 </script>
 
-<div class="rounded-md border">
+<div class="rounded-md border bg-white">
   <Table.Root {...$tableAttrs}>
     <Table.Header>
       {#each $headerRows as headerRow}
@@ -107,7 +106,7 @@
               <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
                 <Table.Head {...attrs}>
                   {#if !props.sort.disabled}
-                    <button class="flex space-x-2 items-center" on:click={props.sort.toggle}>
+                    <button class="flex items-center space-x-2" on:click={props.sort.toggle}>
                       <Render of={cell.render()} />
                       <ArrowUpDown class={'ml-2 h-4 w-4'} />
                     </button>
@@ -129,7 +128,7 @@
               <Subscribe attrs={cell.attrs()} let:attrs>
                 <Table.Cell
                   class={`whitespace-nowrap ${
-                    cell.id == 'Time' ? 'tabular-nums font-semibold' : ''
+                    cell.id == 'Time' ? 'font-semibold tabular-nums' : ''
                   }`}
                   {...attrs}
                 >

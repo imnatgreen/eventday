@@ -4,7 +4,7 @@
   import { Button } from '$lib/components/ui/button';
   import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 
-  import { MapPin, Settings2, LogOut } from 'lucide-svelte';
+  import { MapPin, Settings2, LogOut, CircleUserRound, FileSliders } from 'lucide-svelte';
 
   import { fade } from 'svelte/transition';
 
@@ -12,6 +12,7 @@
   import type { Navigation } from '@sveltejs/kit';
   import { navigating } from '$app/stores';
   import { enhance } from '$app/forms';
+  import { titleCase } from '$lib/utils';
 
   export let data: LayoutServerData;
 
@@ -32,20 +33,20 @@
   };
 </script>
 
-<div class="flex flex-col w-full min-h-screen">
+<div class="flex min-h-screen w-full flex-col bg-stone-50">
   <header
-    class="supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b bg-background/95 shadow-sm backdrop-blur"
+    class="sticky top-0 z-50 w-full border-b bg-background/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60"
   >
-    <div class="container h-14 flex items-center">
+    <div class="container flex h-14 items-center">
       <a href="/">
-        <h1 class="text-lg mr-4">
+        <h1 class="mr-4 text-lg">
           <span class="font-semibold">eventday</span> <span class="text-gray-500">for parkrun</span>
         </h1>
       </a>
       {#if data.session.userId != ''}
         <div transition:fade={{ duration: 200 }} class="flex flex-1 items-center justify-end gap-2">
-          <Button variant="outline" size="sm" class="font-normal hidden min-[450px]:inline-flex">
-            <MapPin class="mr-2 -ml-1 h-4 w-4 shrink-0 opacity-50" />
+          <Button variant="outline" size="sm" class="hidden font-normal min-[450px]:inline-flex">
+            <MapPin class="-ml-1 mr-2 h-4 w-4 shrink-0 opacity-50" />
             Burnley juniors
           </Button>
           <DropdownMenu.Root>
@@ -56,13 +57,25 @@
             </DropdownMenu.Trigger>
             <DropdownMenu.Content>
               <DropdownMenu.Group>
-                <DropdownMenu.Item class="min-[450px]:hidden flex gap-2">
+                <DropdownMenu.Item class="flex gap-2 min-[450px]:hidden">
                   <MapPin class="h-4 w-4" /> Burnley juniors
                 </DropdownMenu.Item>
                 <DropdownMenu.Separator class="min-[450px]:hidden" />
-                <DropdownMenu.Item class="">
+                <DropdownMenu.Item class="flex gap-2">
+                  <CircleUserRound class="h-4 w-4" /> Signed in as {titleCase(
+                    data.session.username
+                  )}
+                </DropdownMenu.Item>
+                {#if data.session.isAdmin}
+                  <DropdownMenu.Item>
+                    <a href="/admin" class="flex items-center gap-2">
+                      <FileSliders class="h-4 w-4" /> Admin settings
+                    </a>
+                  </DropdownMenu.Item>
+                {/if}
+                <DropdownMenu.Item>
                   <form method="post" action="/logout" use:enhance>
-                    <button class="flex gap-2 items-center" type="submit"
+                    <button class="flex items-center gap-2" type="submit"
                       ><LogOut class="h-4 w-4" /> Sign out</button
                     >
                   </form>
@@ -78,9 +91,9 @@
     <div
       in:fade={{ duration: 200, delay: 300 }}
       out:fade={{ duration: 200, delay: 200 }}
-      class="absolute container py-6 bg-background left-0 right-0 bottom-0 top-0 mt-14 z-40"
+      class="container absolute bottom-0 left-0 right-0 top-0 z-40 mt-14 bg-background py-6"
     >
-      <div class="flex flex-row p-1 gap-2 items-center">
+      <div class="flex flex-row items-center gap-2 p-1">
         <svg width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
           ><style>
             .spinner_ajPY {
@@ -108,7 +121,7 @@
     <main
       in:fade={{ duration: 200, delay: 200 }}
       out:fade={{ duration: 200 }}
-      class="container py-6 flex flex-col gap-4 grow"
+      class="container flex grow flex-col gap-4 py-6"
     >
       <slot />
     </main>

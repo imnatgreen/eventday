@@ -13,20 +13,20 @@
 </script>
 
 <Card.Root class={className}>
-  <Card.Header class="p-4 sm:p-6 pb-1 sm:pb-2 flex flex-row items-center justify-between space-y-0">
-    <Card.Title class="text-sm sm:text-md font-medium mr-4">{title}</Card.Title>
+  <Card.Header class="flex flex-row items-center justify-between space-y-0 p-4 pb-1 sm:p-6 sm:pb-2">
+    <Card.Title class="sm:text-md mr-4 text-sm font-medium">{title}</Card.Title>
     <slot name="icon" />
   </Card.Header>
-  <Card.Content class="p-4 sm:p-6 pt-0 sm:pt-0 flex flex-col gap-1">
+  <Card.Content class="flex flex-col gap-1 p-4 pt-0 sm:p-6 sm:pt-0">
     <div class="text-3xl font-bold">{stat}</div>
     {#if difference > 0}
-      <p class="text-xs sm:text-sm text-green-500 flex items-center gap-1">
-        <TrendingUp class="w-4 h-4" />{difference}
+      <p class="flex items-center gap-1 text-xs text-green-500 sm:text-sm">
+        <TrendingUp class="h-4 w-4" />{difference}
         {since}
       </p>
     {:else if difference < 0}
-      <p class="text-xs sm:text-sm text-red-500 flex items-center gap-1">
-        <TrendingDown class="w-4 h-4" />{Math.abs(difference)}
+      <p class="flex items-center gap-1 text-xs text-red-500 sm:text-sm">
+        <TrendingDown class="h-4 w-4" />{Math.abs(difference)}
         {since}
       </p>
     {/if}

@@ -24,7 +24,7 @@
   };
 </script>
 
-<div class="flex space-x-1 items-center">
+<div class="flex items-center space-x-1">
   {#if value}<span class="mr-1">{value}</span>{/if}
   {#if labels}
     {#each labels as label}

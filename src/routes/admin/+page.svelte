@@ -5,7 +5,7 @@
   export let data: PageServerData;
 </script>
 
-<div class="rounded-md border max-w-2xl">
+<div class="max-w-2xl rounded-md border">
   <Table.Root>
     <Table.Header>
       <Table.Row>
@@ -35,7 +35,7 @@
             </button>
           </Table.Cell>
           <Table.Cell>
-            <button form={user.id} class="p-1 bg-red-100 rounded-md" formaction="?/delete">
+            <button form={user.id} class="rounded-md bg-red-100 p-1" formaction="?/delete">
               Delete
             </button>
           </Table.Cell>

@@ -11,7 +11,7 @@
   $: if (tokenNumber) paddedTokenNumber = 'P' + tokenNumber.toString().padStart(4, '0');
 </script>
 
-<div class="mb-1 sm:mb-4 flex items-center space-x-1 text-sm text-muted-foreground">
+<div class="mb-1 flex items-center space-x-1 text-sm text-muted-foreground sm:mb-4">
   <a href="/" class="overflow-hidden text-ellipsis whitespace-nowrap"> Home </a>
   <ChevronRight class="h-4 w-4" />
   <div class="font-medium text-foreground">Tokens</div>
@@ -25,7 +25,7 @@
     on:click={() => {
       if (tokenNumber > 1) tokenNumber--;
       else tokenNumber = 1;
-    }}><Minus class="w-5 h-5 shrink-0" /></Button
+    }}><Minus class="h-5 w-5 shrink-0" /></Button
   >
   <Button
     class="w-10"
@@ -33,12 +33,12 @@
     on:click={() => {
       if (tokenNumber < 9999) tokenNumber++;
       else tokenNumber = 1;
-    }}><Plus class="w-5 h-5 shrink-0" /></Button
+    }}><Plus class="h-5 w-5 shrink-0" /></Button
   >
 </div>
 
 {#if tokenNumber}
-  <div class="flex flex-col items-center w-[180px]">
+  <div class="flex w-[180px] flex-col items-center">
     <Barcode
       value={paddedTokenNumber}
       options={{
@@ -46,6 +46,6 @@
         text: ' '
       }}
     />
-    <div class="text-md font-semibold -mt-6 z-10">{paddedTokenNumber}</div>
+    <div class="text-md z-10 -mt-6 font-semibold">{paddedTokenNumber}</div>
   </div>
 {/if}
