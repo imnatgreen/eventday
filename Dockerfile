@@ -3,6 +3,8 @@ WORKDIR /app
 COPY package*.json .
 RUN npm ci
 COPY . .
+# need to set a valid URL to build
+ARG PARKRUN_API_BASE=https://example.com
 RUN npm run build
 RUN npm prune --production
 
