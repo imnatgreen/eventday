@@ -5,9 +5,8 @@ import type { LayoutServerLoad } from './$types';
 import { parkrunGet, ParkrunRun } from '$lib/server/parkrun';
 
 export const load: LayoutServerLoad = async ({ url, locals }) => {
-  const session = await locals.auth.validate();
   if (
-    !session &&
+    !locals.user &&
     url.pathname != '/login' &&
     url.pathname != '/signup' &&
     url.pathname != '/logout'
@@ -15,7 +14,7 @@ export const load: LayoutServerLoad = async ({ url, locals }) => {
     throw redirect(307, '/login');
 
   let runs: ParkrunRun[] = [];
-  if (session) {
+  if (locals.user) {
     const runsRaw = await parkrunGet(
       '/v1/events/147/runs',
       { OrderByDesc: 'EventNumber,RunId' },
@@ -29,11 +28,11 @@ export const load: LayoutServerLoad = async ({ url, locals }) => {
 
   return {
     session: {
-      userId: session ? session.user.userId : '',
-      username: session ? session.user.username : '',
-      isAdmin: session ? !!session.user.is_admin : false
+      userId: locals.user ? locals.user.id : '',
+      username: locals.user ? locals.user.username : '',
+      isAdmin: locals.user ? !!locals.user.is_admin : false
     },
-    runs: runs,
+    runs,
     url: url.pathname
   };
 };

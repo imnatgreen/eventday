@@ -17,35 +17,37 @@
   <div class="font-medium text-foreground">Tokens</div>
 </div>
 
-<div class="flex max-w-[12rem] items-center space-x-2">
-  <Input type="number" min={1} max={9999} placeholder="Token" bind:value={tokenNumber} />
-  <Button
-    class="w-10"
-    variant="outline"
-    on:click={() => {
-      if (tokenNumber > 1) tokenNumber--;
-      else tokenNumber = 1;
-    }}><Minus class="h-5 w-5 shrink-0" /></Button
-  >
-  <Button
-    class="w-10"
-    variant="outline"
-    on:click={() => {
-      if (tokenNumber < 9999) tokenNumber++;
-      else tokenNumber = 1;
-    }}><Plus class="h-5 w-5 shrink-0" /></Button
-  >
-</div>
-
-{#if tokenNumber}
-  <div class="flex w-[180px] flex-col items-center">
-    <Barcode
-      value={paddedTokenNumber}
-      options={{
-        height: 85,
-        text: ' '
-      }}
-    />
-    <div class="text-md z-10 -mt-6 font-semibold">{paddedTokenNumber}</div>
+<div class="flex w-fit flex-col gap-4 rounded-md bg-white p-6">
+  <div class="flex max-w-[12rem] items-center space-x-2">
+    <Input type="number" min={1} max={9999} placeholder="Token" bind:value={tokenNumber} />
+    <Button
+      class="w-10"
+      variant="outline"
+      on:click={() => {
+        if (tokenNumber > 1) tokenNumber--;
+        else tokenNumber = 1;
+      }}><Minus class="h-5 w-5 shrink-0" /></Button
+    >
+    <Button
+      class="w-10"
+      variant="outline"
+      on:click={() => {
+        if (tokenNumber < 9999) tokenNumber++;
+        else tokenNumber = 1;
+      }}><Plus class="h-5 w-5 shrink-0" /></Button
+    >
   </div>
-{/if}
+
+  {#if tokenNumber}
+    <div class="flex w-[180px] flex-col items-center">
+      <Barcode
+        value={paddedTokenNumber}
+        options={{
+          height: 85,
+          text: ' '
+        }}
+      />
+      <div class="text-md z-10 -mt-6 font-semibold">{paddedTokenNumber}</div>
+    </div>
+  {/if}
+</div>

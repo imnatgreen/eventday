@@ -5,13 +5,14 @@
   export let data: PageServerData;
 </script>
 
-<div class="max-w-2xl rounded-md border">
+<div class="max-w-2xl rounded-md border bg-white">
   <Table.Root>
     <Table.Header>
       <Table.Row>
         <Table.Head class="">Username</Table.Head>
         <Table.Head>Enabled</Table.Head>
         <Table.Head>Role</Table.Head>
+        <Table.Head>Reset pass</Table.Head>
         <Table.Head />
       </Table.Row>
     </Table.Header>
@@ -32,6 +33,11 @@
           <Table.Cell>
             <button form={user.id} formaction="?/toggleAdmin">
               {user.is_admin ? 'Admin' : 'User'}
+            </button>
+          </Table.Cell>
+          <Table.Cell>
+            <button form={user.id} formaction="?/toggleResetNextLogin">
+              {user.reset_next_login ? 'Yes' : 'No'}
             </button>
           </Table.Cell>
           <Table.Cell>
