@@ -25,13 +25,17 @@
   <h2 class="text-2xl font-normal">Events</h2>
   <div class="grid grid-cols-2 gap-x-3 gap-y-3 sm:grid-cols-3 md:grid-cols-6">
     {#each data.runs.slice(0, 6) as run, index}
-      <ConditionalWrapper a condition={index != 5} href={`/event/${run.RunId}`}>
-        <ConditionalWrapper condition={index == 5} class="relative">
+      <ConditionalWrapper
+        a
+        condition={index != 5 && !!run.abstractId}
+        href={`/event/${run.abstractId}`}
+      >
+        <ConditionalWrapper condition={index == 5 || !run.abstractId} class="relative">
           <Card.Root
             class="transition duration-300 ease-in-out hover:-translate-y-1 hover:bg-muted hover:shadow-md"
           >
             <Card.Header>
-              <Card.Title class="text-2xl">#{run.RunId}</Card.Title>
+              <Card.Title class="text-2xl">#{run.abstractId || '––'}</Card.Title>
               <Card.Description>{run.EventDate}</Card.Description>
             </Card.Header>
           </Card.Root>
@@ -64,17 +68,17 @@
                     <Command.Empty>No events found.</Command.Empty>
                     <Command.Group class="overflow-auto overscroll-contain">
                       {#each data.runs.slice(5).filter((r) => {
-                        return `${r.RunId} ${r.EventDate}`.includes(currentEventSearch) || currentEventSearch == '';
+                        return (`${r.abstractId} ${r.EventDate}`.includes(currentEventSearch) || currentEventSearch == '') && !!r.abstractId;
                       }) as run}
                         <Command.Item
-                          value={`${run.RunId} ${run.EventDate}`}
+                          value={`${run.abstractId} ${run.EventDate}`}
                           onSelect={() => {
                             closeAndFocusTrigger(ids.trigger);
                           }}
                           class="p-0"
                         >
-                          <a class="w-full px-2 py-1.5" href={`/event/${run.RunId}`}
-                            >#{run.RunId} – {run.EventDate}</a
+                          <a class="w-full px-2 py-1.5" href={`/event/${run.abstractId}`}
+                            >#{run.abstractId} – {run.EventDate}</a
                           >
                         </Command.Item>
                       {/each}

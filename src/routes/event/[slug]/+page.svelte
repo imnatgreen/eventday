@@ -18,14 +18,14 @@
 
   export let data: PageData;
 
-  const runId = Number.parseInt($page.params.slug);
+  const abstractId = Number.parseInt($page.params.slug);
 
-  const currentRun = data.runs.find((r) => r.RunId == runId);
+  const currentRun = data.runs.find((r) => r.abstractId == abstractId);
   if (!currentRun) {
-    throw error(404, `Run #${runId} not found. Only the 100 most recent runs are available.`);
+    throw error(404, `Run #${abstractId} not found. Only the 100 most recent runs are available.`);
   }
 
-  const previousRun = data.runs.find((r) => r.RunId == runId - 1);
+  const previousRun = data.runs.find((r) => r.abstractId == abstractId - 1);
   const differences = previousRun
     ? {
         participants: currentRun.NumberRunners - previousRun.NumberRunners,
@@ -44,7 +44,7 @@
 <div class="mb-1 flex items-center space-x-1 text-sm text-muted-foreground sm:mb-4">
   <a href="/" class="overflow-hidden text-ellipsis whitespace-nowrap"> Home </a>
   <ChevronRight class="h-4 w-4" />
-  <div class="font-medium text-foreground">Event #{runId}</div>
+  <div class="font-medium text-foreground">Event #{abstractId}</div>
 </div>
 
 <div class="grid grid-cols-1 gap-2 sm:flex sm:gap-3">
@@ -116,6 +116,6 @@
   </Card.Root>
 </div>
 
-<Button class="max-w-fit px-8" href={`${runId}/report`}>Generate run report</Button>
+<Button class="max-w-fit px-8" href={`${abstractId}/report`}>Generate run report</Button>
 
 <ResultTable results={data.results} volunteers={data.volunteers} />

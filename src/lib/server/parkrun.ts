@@ -190,6 +190,7 @@ export class ParkrunRun {
   NumberRunners: number;
   EventDate: string;
   NumberOfVolunteers: number;
+  abstractId: number | null;
 
   constructor(data: Record<string, string>) {
     this.EventNumber = Number.parseInt(data.EventNumber);
@@ -197,6 +198,7 @@ export class ParkrunRun {
     this.NumberRunners = Number.parseInt(data.NumberRunners);
     this.EventDate = data.EventDate;
     this.NumberOfVolunteers = Number.parseInt(data.NumberOfVolunteers);
+    this.abstractId = Number.parseInt(data.abstractId) || null;
   }
 }
 

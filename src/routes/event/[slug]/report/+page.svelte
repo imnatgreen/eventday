@@ -10,10 +10,10 @@
 
   export let data: PageData;
 
-  const runId = Number.parseInt($page.params.slug);
+  const abstractId = Number.parseInt($page.params.slug);
 
   const report: ParkrunRunReport = {
-    id: runId,
+    id: abstractId,
     participants: data.results.length,
     firstTimers: getResultNamesByCondition(data.results, (r) => r.FirstTimer),
     newPBs: getResultNamesByCondition(data.results, (r) => r.GenuinePB),
@@ -32,7 +32,7 @@
 <div class="mb-1 flex items-center space-x-1 text-sm text-muted-foreground sm:mb-4">
   <a href="/" class="overflow-hidden text-ellipsis whitespace-nowrap"> Home </a>
   <ChevronRight class="h-4 w-4" />
-  <a href={`/event/${runId}`} class="font-medium text-foreground">Event #{runId}</a>
+  <a href={`/event/${abstractId}`} class="font-medium text-foreground">Event #{abstractId}</a>
   <ChevronRight class="h-4 w-4" />
   <div class="font-medium text-foreground">Run report</div>
 </div>
