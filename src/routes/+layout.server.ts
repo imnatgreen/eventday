@@ -11,7 +11,7 @@ export const load: LayoutServerLoad = async ({ url, locals }) => {
     url.pathname != '/signup' &&
     url.pathname != '/logout'
   )
-    throw redirect(307, '/login');
+    redirect(307, '/login');
 
   let runs: ParkrunRun[] = [];
   if (locals.user) {

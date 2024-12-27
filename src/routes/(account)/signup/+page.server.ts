@@ -77,6 +77,6 @@ export const actions: Actions = {
       });
     }
 
-    throw redirect(307, '/');
+    redirect(307, '/');
   }
 };

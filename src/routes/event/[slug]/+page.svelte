@@ -22,7 +22,7 @@
 
   const currentRun = data.runs.find((r) => r.abstractId == abstractId);
   if (!currentRun) {
-    throw error(404, `Run #${abstractId} not found. Only the 100 most recent runs are available.`);
+    error(404, `Run #${abstractId} not found. Only the 100 most recent runs are available.`);
   }
 
   const previousRun = data.runs.find((r) => r.abstractId == abstractId - 1);

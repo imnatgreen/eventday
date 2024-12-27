@@ -79,8 +79,8 @@ export const actions: Actions = {
     }
 
     if (existingUser.reset_next_login) {
-      throw redirect(307, '/account/password');
+      redirect(307, '/account/password');
     }
-    throw redirect(307, '/');
+    redirect(307, '/');
   }
 };

@@ -4,7 +4,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
-  if (!locals.user) throw redirect(307, '/login');
+  if (!locals.user) redirect(307, '/login');
   return {};
 };
 
@@ -16,6 +16,6 @@ export const actions: Actions = {
       path: '.',
       ...sessionCookie.attributes
     });
-    throw redirect(307, '/login');
+    redirect(307, '/login');
   }
 };

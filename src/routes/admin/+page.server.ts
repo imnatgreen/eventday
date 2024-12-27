@@ -3,8 +3,8 @@ import type { PageServerLoad, Actions } from './$types';
 import { error, fail, redirect } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ locals }) => {
-  if (!locals.user) throw redirect(307, '/login');
-  if (locals.user.is_admin == 0) throw error(403, 'Forbidden');
+  if (!locals.user) redirect(307, '/login');
+  if (locals.user.is_admin == 0) error(403, 'Forbidden');
 
   const users = (await db
     .prepare('select id, username, is_enabled, is_admin, reset_next_login from user;')

@@ -5,8 +5,8 @@ import type { PageServerLoad, Actions } from './$types';
 import { Argon2id } from 'oslo/password';
 
 export const load: PageServerLoad = async ({ locals }) => {
-  if (!locals.user) throw redirect(307, '/login');
-  if (!locals.user.reset_next_login) throw redirect(307, '/');
+  if (!locals.user) redirect(307, '/login');
+  if (!locals.user.reset_next_login) redirect(307, '/');
   return {};
 };
 
@@ -33,6 +33,6 @@ export const actions: Actions = {
       });
     }
 
-    throw redirect(307, '/');
+    redirect(307, '/');
   }
 };
