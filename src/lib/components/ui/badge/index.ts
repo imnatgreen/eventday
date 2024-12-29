@@ -19,7 +19,9 @@ export const badgeVariants = tv({
       milestone50:
         'px-0.5 bg-[#ffa300] hover:bg-[#ffa300]/80 border-transparent text-primary-foreground',
       milestone100:
-        'px-0.5 bg-[#939393] hover:bg-[#939393]/80 border-transparent text-primary-foreground'
+        'px-0.5 bg-[#939393] hover:bg-[#939393]/80 border-transparent text-primary-foreground',
+      milestone250:
+        'px-0.5 bg-[#ffdd00] hover:bg-[#ffdd00]/80 border-transparent text-primary-foreground'
     }
   },
   defaultVariants: {

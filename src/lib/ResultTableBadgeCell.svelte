@@ -18,6 +18,8 @@
         return 'milestone50';
       case '100':
         return 'milestone100';
+      case '250':
+        return 'milestone250';
       default:
         return 'outline';
     }
