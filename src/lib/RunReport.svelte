@@ -43,15 +43,14 @@ ${
         at Towneley Park.
       </p>
 
-      <p>
-        {data.firstTimers.length}
-        {data.firstTimers.length > 1 ? 'children' : 'child'} joined us for the first time this morning.{data
-          .firstTimers.length > 0
-          ? ` A warm welcome to ${listFormatter.format(
-              data.firstTimers
-            )} 👋 We hope to see you again next week!`
-          : ''}
-      </p>
+      {#if data.firstTimers.length > 0}
+        <p>
+          {data.firstTimers.length}
+          {data.firstTimers.length > 1 ? 'children' : 'child'} joined us for the first time this morning.
+          A warm welcome to {listFormatter.format(data.firstTimers)} 👋 We hope to see you again next
+          week!
+        </p>
+      {/if}
 
       {#if data.newPBs.length > 0}
         <p>
