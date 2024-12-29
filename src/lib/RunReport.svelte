@@ -10,7 +10,7 @@
   const listFormatter = new Intl.ListFormat('en', { style: 'long' });
 
   const milestoneCount = (m: ParkrunRunReportMilestones) => {
-    return m.half.length + m.full.length + m.ultra.length + m.hundred.length;
+    return m.half.length + m.full.length + m.ultra.length + m[100].length + m[250].length;
   };
   const milestoneText = (m: ParkrunRunReportMilestones) => {
     return `${
@@ -18,9 +18,11 @@
     }
 ${m.full.length > 0 ? '🟢 Marathon (21 runs) — ' + listFormatter.format(m.full) : ''}
 ${m.ultra.length > 0 ? '🟠 Ultra marathon (50 runs) — ' + listFormatter.format(m.ultra) : ''}
-${
-  m.hundred.length > 0 ? '⚫️ 100 junior parkruns — ' + listFormatter.format(m.hundred) : ''
-}`.replace(/^\s*[\r\n]/gm, '');
+${m[100].length > 0 ? '⚫️ 100 junior parkruns — ' + listFormatter.format(m[100]) : ''}
+${m[250].length > 0 ? '🟡 250 junior parkruns — ' + listFormatter.format(m[250]) : ''}`.replace(
+      /^\s*[\r\n]/gm,
+      ''
+    );
   };
 
   export let content: HTMLElement | undefined = undefined;

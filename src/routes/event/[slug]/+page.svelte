@@ -34,10 +34,11 @@
     : { participants: 0, volunteers: 0 };
 
   const milestones = {
-    half: getResultNamesByCondition(data.results, (r) => r.JuniorRunTotal == 11, false),
-    full: getResultNamesByCondition(data.results, (r) => r.JuniorRunTotal == 21, false),
-    ultra: getResultNamesByCondition(data.results, (r) => r.JuniorRunTotal == 50, false),
-    hundred: getResultNamesByCondition(data.results, (r) => r.JuniorRunTotal == 100, false)
+    half: getResultNamesByCondition(data.results, (r) => r.JuniorRunTotal == 11),
+    full: getResultNamesByCondition(data.results, (r) => r.JuniorRunTotal == 21),
+    ultra: getResultNamesByCondition(data.results, (r) => r.JuniorRunTotal == 50),
+    100: getResultNamesByCondition(data.results, (r) => r.JuniorRunTotal == 100),
+    250: getResultNamesByCondition(data.results, (r) => r.JuniorRunTotal == 250)
   };
 </script>
 
@@ -75,8 +76,9 @@
       <div class="text-3xl font-bold">
         {milestones.full.length +
           milestones.half.length +
-          milestones.hundred.length +
-          milestones.ultra.length}
+          milestones.ultra.length +
+          milestones[100].length +
+          milestones[250].length}
       </div>
       <div class="hidden sm:flex">
         <Dialog.Root>

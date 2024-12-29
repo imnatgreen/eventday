@@ -21,7 +21,8 @@
       half: getResultNamesByCondition(data.results, (r) => r.JuniorRunTotal == 11),
       full: getResultNamesByCondition(data.results, (r) => r.JuniorRunTotal == 21),
       ultra: getResultNamesByCondition(data.results, (r) => r.JuniorRunTotal == 50),
-      hundred: getResultNamesByCondition(data.results, (r) => r.JuniorRunTotal == 100)
+      100: getResultNamesByCondition(data.results, (r) => r.JuniorRunTotal == 100),
+      250: getResultNamesByCondition(data.results, (r) => r.JuniorRunTotal == 250)
     },
     volunteers: data.volunteers
       .sort((a, b) => a.LastName.localeCompare(b.LastName))

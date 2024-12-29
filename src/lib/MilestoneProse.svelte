@@ -8,7 +8,7 @@
 <section
   class={`prose ${drawer ? 'mx-4 mb-12 w-full max-w-sm text-left' : ''} prose-headings:mt-6`}
 >
-  {#if milestones.half.length + milestones.full.length + milestones.ultra.length + milestones.hundred.length == 0}
+  {#if milestones.half.length + milestones.full.length + milestones.ultra.length + milestones[100].length + milestones[250].length == 0}
     <p>No milestones were reached this week.</p>
   {/if}
   {#if milestones.half.length > 0}
@@ -35,10 +35,18 @@
       {/each}
     </ul>
   {/if}
-  {#if milestones.hundred.length > 0}
+  {#if milestones[100].length > 0}
     <h4>100 junior parkruns</h4>
     <ul>
-      {#each milestones.hundred as name}
+      {#each milestones[100] as name}
+        <li>{name}</li>
+      {/each}
+    </ul>
+  {/if}
+  {#if milestones[250].length > 0}
+    <h4>250 junior parkruns</h4>
+    <ul>
+      {#each milestones[250] as name}
         <li>{name}</li>
       {/each}
     </ul>

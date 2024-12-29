@@ -215,5 +215,6 @@ export type ParkrunRunReportMilestones = {
   half: string[];
   full: string[];
   ultra: string[];
-  hundred: string[];
+  100: string[];
+  250: string[];
 };
